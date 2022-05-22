@@ -30,7 +30,7 @@ class Solution {
         int inRoot = inmap.get(root.val);
         int numsLeft = inRoot - inStart;
         
-        root.left = build(preorder, preStart+1, preStart+numsLeft, inorder, inStart, inRoot+1, inmap);
+        root.left = build(preorder, preStart+1, preStart+numsLeft, inorder, inStart, inRoot-1, inmap);
         root.right = build(preorder, preStart + numsLeft + 1, preEnd, inorder, inRoot+1, inEnd, inmap);
         return root;
     }
