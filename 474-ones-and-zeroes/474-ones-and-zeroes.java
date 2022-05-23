@@ -1,24 +1,18 @@
 class Solution {
-    int dp[][][];
+    int dp[][];
     public int findMaxForm(String[] arr, int m, int n) {
-        dp = new int[m+1][n+1][arr.length];
-        return solve(arr, m, n, 0);
-    }
-    public int solve(String[] arr, int zero, int one, int idx){
-        if(idx == arr.length || zero+one == 0){
-            return 0;
+        dp = new int[m+1][n+1];
+        
+        for(String s: arr){
+            int[] count = count(s);
+            for(int zero = m; zero >= count[0]; zero--){
+                for(int one = n; one >= count[1]; one--){
+                    dp[zero][one] = Math.max(dp[zero-count[0]][one-count[1]]+1, dp[zero][one]);
+                }
+            }
         }
         
-        if(dp[zero][one][idx] > 0) return dp[zero][one][idx];
-        
-        int[] count = count(arr[idx]);
-        
-        int consider = 0;
-        if(zero >= count[0] && one >= count[1]){
-            consider = 1 + solve(arr, zero-count[0], one-count[1], idx+1);
-        }
-        int skip = solve(arr, zero, one, idx+1);
-        return dp[zero][one][idx] = Math.max(consider, skip);
+        return dp[m][n];
     }
     
     public int[] count(String s){
